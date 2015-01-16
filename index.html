@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<style>
+		html {
+			width: 100%;
+			height: 100%;
+			background: url('i/bfast.png') center center no-repeat;
+		}
+		body {
+			font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		}
+		.bclubcont {
+			color: #fff;
+			text-align: center;
+			position: absolute;
+			height: 100px;
+			width: 800px;    
+		    left: 50%;
+		    top: 50%;
+		    transform: translate(-50%, -50%);    
+		    -webkit-transform: translate(-50%, -50%);
+		    -moz-transform: translate(-50%, -50%);
+		    -ms-transform: translate(-50%, -50%);
+		}
+		.bclubcont h1 {
+			font-size: 26px;
+			padding:0;
+			margin:0;
+		}
+		.bclubcont h2 {
+			font-size: 33px;
+		}
+		.bclubfoot {
+			width: 100%;
+			position: absolute;
+			bottom: 10px;
+			text-align: center;
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+
+<section class="bclubcont">
+	<h1>BREAKFAST CLUB STARTS IN...</h1>
+	<h2 id="timer"></h2>
+</section>
+
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script>
+	var url = "https://spreadsheets.google.com/feeds/cells/1mFHAI62GPZwE03YHXdSLA2o5SuoVTczVXbbtaU5oIBA/od6/public/basic?alt=json",
+		breakfastclub, now, timerOut;
+		
+	$.ajax({
+	    url:url,
+	    dataType:"jsonp",
+	    success:function(data) {
+			breakfastclub = new Date(data.feed.entry[0].content.$t);
+			
+			startCountdown();
+	    }
+	});
+	
+	function startCountdown() {
+		timerOut = setInterval(function() {
+			var difference;
+			
+			now = new Date();
+			
+			difference = ((breakfastclub.getTime() - now.getTime()) / 1000).toFixed(0);
+			
+			$('#timer').text(difference > 0 ? calculateTime(difference) : 'BREAKFAST CLUB HAS STARTED!!')
+			
+			if (difference <= 0) {
+				clearTimeout(timerOut);
+			}
+		}, 1000);
+	}
+	
+	function calculateTime(seconds) {
+		var weeks, days, hours, minutes, mf = Math.floor;
+		
+		minutes = mf(seconds / 60);
+		
+		seconds = seconds % 60;
+		
+		hours = mf(minutes / 60);
+		
+		minutes = minutes % 60;
+		
+		days = mf(hours / 24);
+		
+		hours = hours % 24;
+		
+		weeks = days / 7;
+		
+		days = days % 7;
+		
+		return (days > 0  ? days + ' days' : '') + (hours > 0 ? (days > 0 ? ', ' : '') + hours + ' hours' : '') + (minutes > 0 ? (hours > 0 ? ', ' : '') + minutes + ' minutes' : '') + (seconds > 0 ? (minutes > 0 ? ', ' : '') + seconds + ' seconds!' : '');
+		
+	}
+</script>
+
+<footer class="bclubfoot"> 
+<span id="txt1text">Image credit: © <a href="http://www.dreamstime.com/celwell_info#res9639161">Celwell</a> | <a href="http://www.dreamstime.com/#res9639161">Dreamstime.com</a> - <a href="http://www.dreamstime.com/stock-images-full-english-breakfast-image3130344#res9639161">Full English Breakfast Photo</a></span>
+<br/>
+<span>Website: 	© <a href="http://www.flyinganvil.co.uk/">Flying Anvil Ltd</a></span>
+</footer>
+
+</body>
+</html>
