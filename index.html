@@ -97,7 +97,7 @@
 		
 		days = days % 7;
 		
-		return (days > 0  ? days + ' days' : '') + (hours > 0 ? (days > 0 ? ', ' : '') + hours + ' hours' : '') + (minutes > 0 ? (hours > 0 ? ', ' : '') + minutes + ' minutes' : '') + (seconds > 0 ? (minutes > 0 ? ', ' : '') + seconds + ' seconds!' : '');
+		return (days > 0  ? days + ' day' + (days > 1 ? 's' : '') : '') + (hours > 0 ? (days > 0 ? ', ' : '') + hours + ' hour' + (hours > 1 ? 's' : '') : '') + (minutes > 0 ? (hours > 0 ? ', ' : '') + minutes + ' minute' + (minutes > 1 ? 's' : '') : '') + (seconds > 0 ? (minutes > 0 ? ', ' : '') + seconds + ' second' + (seconds > 1 ? 's!' : '!') : '');
 		
 	}
 </script>
